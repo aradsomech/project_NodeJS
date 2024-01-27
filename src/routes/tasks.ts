@@ -10,26 +10,28 @@ import { createCard } from "../service/card-service";
 import { isUser } from "../middleware/is-user";
 import { isAdminOrUser } from "../middleware/is-admin-or-user";
 import { isAdmin } from "../middleware/is-admin";
+import { Task } from "../database/model/tasks";
 
 const router = Router();
-// CREATE CARD
-router.post("/", validateCard, async (req, res, next) => {
-  try {
-    const userId = req.user?._id;
-    if (!userId) {
-      throw new BizCardsError("User must have an id", 500);
-    }
-    const saveCard = await createCard(req.body as ICardInput, userId);
-    res.status(201).json({ message: "card saved", user: saveCard });
-  } catch (e) {
-    next(e);
-  }
-});
+// // CREATE CARD
+// router.post("/", validateCard, async (req, res, next) => {
+//   try {
+//     const userId = req.user?._id;
+//     if (!userId) {
+//       throw new BizCardsError("User must have an id", 500);
+//     }
+//     const saveCard = await createCard(req.body as ICardInput, userId);
+//     res.status(201).json({ message: "card saved", user: saveCard });
+//   } catch (e) {
+//     next(e);
+//   }
+// });
+
 // GET ALL CARDS
 router.get("/", async (req, res, next) => {
   try {
-    const allCards = await Card.find();
-    return res.json(allCards);
+    const allTasks = await Task.find();
+    return res.json(allTasks);
   } catch (e) {
     next(e);
   }
@@ -132,4 +134,4 @@ router.patch("/:id/changeBizNum", isAdmin, async (req, res, next) => {
     next(e);
   }
 });
-export { router as cardRouter };
+export { router as taskRouter };

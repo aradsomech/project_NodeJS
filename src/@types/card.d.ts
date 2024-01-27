@@ -9,12 +9,23 @@ type ICardInput = {
   image?: IImage;
 };
 export type ICard = ICardInput & {
-  //JWT=> userid
-  //bizNumber => random Unique
+  _id?: string;
+  taskNumber: number;
+  title: string;
   bizNumber?: number;
   userId?: string;
 
+  likes: string[];
+  createdAt: Date;
+};
+
+export type ICard = {
   _id?: string;
+  taskNumber: number;
+  title: string;
+  bizNumber?: number;
+  userId?: string;
+
   likes: string[];
   createdAt: Date;
 };
