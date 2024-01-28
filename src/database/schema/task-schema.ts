@@ -4,7 +4,7 @@ import { ITask } from "../../@types/task";
 
 const taskSchema = new Schema<ITask>({
   title: { type: String, minlength: 2, maxlength: 256, required: true },
-  taskNumber: { type: Number, minlength: 2, maxlength: 256, required: true },
+  taskNumber: { type: Number, minlength: 2, maxlength: 256, required: false },
   status: { type: String, minlength: 2, maxlength: 11, required: true },
   priority: { type: String, minlength: 2, maxlength: 11, required: true },
   content: { type: String, minlength: 2, maxlength: 1024, required: true },
@@ -13,5 +13,7 @@ const taskSchema = new Schema<ITask>({
     required: false,
     default: new Date(),
   },
+  userId: { type: String, required: true },
+  assigneeId: { type: String, required: false },
 });
 export { taskSchema };

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { Card } from "../database/model/cards";
 import { auth } from "../service/auth-service";
-import { validateCard } from "../middleware/validation";
+import { validateCard, validateTask } from "../middleware/validation";
 import { ICard, ICardInput } from "../@types/card";
 
 import { validateToken } from "../middleware/validate-token";
@@ -11,31 +11,47 @@ import { isUser } from "../middleware/is-user";
 import { isAdminOrUser } from "../middleware/is-admin-or-user";
 import { isAdmin } from "../middleware/is-admin";
 import { Task } from "../database/model/tasks";
+import { createTask } from "../service/task-service";
+import { ITaskInput } from "../@types/task";
 
 const router = Router();
-// // CREATE CARD
-// router.post("/", validateCard, async (req, res, next) => {
-//   try {
-//     const userId = req.user?._id;
-//     if (!userId) {
-//       throw new BizCardsError("User must have an id", 500);
-//     }
-//     const saveCard = await createCard(req.body as ICardInput, userId);
-//     res.status(201).json({ message: "card saved", user: saveCard });
-//   } catch (e) {
-//     next(e);
-//   }
-// });
+// CREATE CARD
+router.post("/", validateToken, validateTask, async (req, res, next) => {
+  try {
+    console.log(req.user?._id);
 
-// GET ALL CARDS
+    const userId = req.user?._id;
+    if (!userId) {
+      throw new BizCardsError("User must have an id", 500);
+    }
+    const saveTask = await createTask(req.body as ITaskInput, userId);
+    res.status(201).json({ message: "task saved", task: saveTask });
+  } catch (e) {
+    next(e);
+  }
+});
+
+// GET ALL TASKS
 router.get("/", async (req, res, next) => {
   try {
+    console.log("|omer");
+
     const allTasks = await Task.find();
     return res.json(allTasks);
   } catch (e) {
     next(e);
   }
 });
+
+// router.post("/", async (req, res, next) => {
+//   console.log("asdas");
+//   try {
+//     const allTasks = await Task.find();
+//     return res.json(allTasks);
+//   } catch (e) {
+//     next(e);
+//   }
+// });
 
 // GET MY CARDS
 router.get("/my-cards", validateToken, async (req, res, next) => {
