@@ -7,6 +7,7 @@ const schema = Joi.object<ITask>({
   content: Joi.string().min(2).max(256).required(),
   status: Joi.string().min(2).max(256).required(),
   priority: Joi.string().min(2).max(256).required(),
+  assigneeId: Joi.string().min(2).max(256),
 });
 
 export { schema as joiTaskSchema };

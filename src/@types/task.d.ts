@@ -2,7 +2,7 @@ export type ITask = {
   _id?: string;
   taskNumber: number;
   title: string;
-  status?: number;
+  status?: string;
   priority?: string;
   content?: string;
   createdAt: Date;
@@ -12,7 +12,7 @@ export type ITask = {
 
 export type ITaskInput = {
   title: string;
-  status: number;
+  status: string;
   priority: string;
   content: string;
   assigneeId?: string;
